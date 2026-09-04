@@ -92,7 +92,6 @@ use universal_hash::typenum::{IsLessOrEqual, NonZero};
 /// Nonce type for [`Dwp`]
 pub type Nonce = aead::Nonce<BeltDwp>;
 
-mod gf;
 mod ghash;
 
 use ghash::GHash;
@@ -182,7 +181,7 @@ where
         ghash.update_padded(&sizes_block);
 
         // 6. 𝑡 ← belt-block(𝑡 * 𝑟, 𝐾).
-        let mut tag = ghash.finalize_reset();
+        let mut tag = ghash.finalize();
         self.cipher.encrypt_block(&mut tag);
 
         tag[..TagSize::USIZE].try_into().map_err(|_| Error)
@@ -222,7 +221,7 @@ where
         ghash.update_padded(&sizes_block);
 
         // 6. 𝑡 ← belt-block(𝑡 * 𝑟, 𝐾).
-        let mut tag_exact = ghash.finalize_reset();
+        let mut tag_exact = ghash.finalize();
         self.cipher.encrypt_block(&mut tag_exact);
 
         use ctutils::CtEq;

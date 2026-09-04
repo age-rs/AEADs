@@ -127,6 +127,7 @@ dependencies = [
  "belt-block",
  "belt-ctr",
  "ctutils",
+ "ghash",
  "hex-literal",
  "universal-hash",
  "zeroize",
